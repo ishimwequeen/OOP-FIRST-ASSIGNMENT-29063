@@ -14,11 +14,11 @@ public abstract class AcademicMember extends Person {
     private String institutionalEmail;
     private String advisorName;
 
-    protected AcademicMember(String nationalId, String firstName, String lastName, String email,
+    protected AcademicMember(String personId, String firstName, String lastName, String email,
                              String phoneNumber, LocalDate dateOfBirth, String memberNumber,
                              Department department, LocalDate joinDate, String academicStatus,
                              String institutionalEmail, String advisorName) {
-        super(nationalId, firstName, lastName, email, phoneNumber, dateOfBirth);
+        super(personId, firstName, lastName, email, phoneNumber, dateOfBirth);
         this.memberNumber = memberNumber;
         this.department = department;
         this.joinDate = joinDate;

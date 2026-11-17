@@ -15,12 +15,12 @@ public class Student extends AcademicMember {
     private String guardianPhone;
     private boolean scholarshipStatus;
 
-    public Student(String nationalId, String firstName, String lastName, String email, String phoneNumber,
+    public Student(String personId, String firstName, String lastName, String email, String phoneNumber,
                    LocalDate dateOfBirth, String memberNumber, Department department, LocalDate joinDate,
                    String academicStatus, String institutionalEmail, String advisorName, String studentNumber,
                    String programName, LocalDate admissionDate, int studyYear, String guardianPhone,
                    boolean scholarshipStatus) {
-        super(nationalId, firstName, lastName, email, phoneNumber, dateOfBirth, memberNumber, department,
+        super(personId, firstName, lastName, email, phoneNumber, dateOfBirth, memberNumber, department,
                 joinDate, academicStatus, institutionalEmail, advisorName);
         this.studentNumber = studentNumber;
         this.programName = programName;

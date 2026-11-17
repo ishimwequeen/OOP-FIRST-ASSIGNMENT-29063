@@ -14,10 +14,10 @@ public class Administrator extends Person {
     private int accessLevel;
     private boolean active;
 
-    public Administrator(String nationalId, String firstName, String lastName, String email, String phoneNumber,
+    public Administrator(String personId, String firstName, String lastName, String email, String phoneNumber,
                          LocalDate dateOfBirth, String staffNumber, String jobTitle, String assignedOffice,
                          LocalDate employmentDate, int accessLevel, boolean active) {
-        super(nationalId, firstName, lastName, email, phoneNumber, dateOfBirth);
+        super(personId, firstName, lastName, email, phoneNumber, dateOfBirth);
         this.staffNumber = staffNumber;
         this.jobTitle = jobTitle;
         this.assignedOffice = assignedOffice;

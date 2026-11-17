@@ -8,16 +8,16 @@ import com.auca.util.Checks;
 import java.time.LocalDate;
 
 public abstract class Person implements Identifiable, Registrable {
-    private String nationalId;
+    private String personId;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private LocalDate dateOfBirth;
 
-    protected Person(String nationalId, String firstName, String lastName, String email,
+    protected Person(String personId, String firstName, String lastName, String email,
                      String phoneNumber, LocalDate dateOfBirth) {
-        this.nationalId = nationalId;
+        this.personId = personId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -28,7 +28,7 @@ public abstract class Person implements Identifiable, Registrable {
     public abstract String getRoleDescription();
 
     @Override public String getId() {
-        return nationalId;
+        return personId;
     }
     @Override public String getDisplayName() {
         return firstName + " " + lastName;
@@ -39,7 +39,7 @@ public abstract class Person implements Identifiable, Registrable {
 
     @Override
     public void validate() throws ValidationException {
-        Checks.nationalId(nationalId, "National ID");
+        Checks.text(personId, "Person ID", 4, 30);
         Checks.text(firstName, "First name", 2, 60);
         Checks.text(lastName, "Last name", 2, 60);
         Checks.email(email, "Email");
@@ -51,14 +51,14 @@ public abstract class Person implements Identifiable, Registrable {
         System.out.println(this);
     }
     @Override public String getRegistrationSummary() {
-        return getRoleDescription() + " " + nationalId + " - " + getDisplayName();
+        return getRoleDescription() + " " + personId + " - " + getDisplayName();
     }
 
-    public String getNationalId() {
-        return nationalId;
+    public String getPersonId() {
+        return personId;
     }
-    public void setNationalId(String nationalId) {
-        this.nationalId = nationalId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
     public String getFirstName() {
         return firstName;
@@ -92,7 +92,7 @@ public abstract class Person implements Identifiable, Registrable {
     }
 
     @Override public String toString() {
-        return getRoleDescription() + "{nationalId='" + nationalId + "', name='" + getDisplayName()
+        return getRoleDescription() + "{personId='" + personId + "', name='" + getDisplayName()
                 + "', email='" + email + "', phone='" + phoneNumber + "', dateOfBirth=" + dateOfBirth + "}";
     }
 }

@@ -138,18 +138,6 @@ public class Main {
         }
     }
 
-    private String digitsOnly(String prompt, int length) {
-        while (true) {
-            String value = ask(prompt);
-            boolean valid = value.length() == length;
-            for (int i = 0; valid && i < value.length(); i++) {
-                if (value.charAt(i) < '0' || value.charAt(i) > '9') valid = false;
-            }
-            if (valid) return value;
-            System.out.println("Enter exactly " + length + " digits.");
-        }
-    }
-
     private String ask(String prompt) {
         System.out.print(prompt);
         if (!scanner.hasNextLine()) throw new EndOfInputException();
@@ -299,12 +287,12 @@ public class Main {
     private void editDraft(Registrable record) {
         if (record instanceof Student) {
             Student s = (Student) record;
-            int field = number("Edit field 1 National ID  2 First name  3 Last name  4 Email  5 Phone  6 Birth date"
+            int field = number("Edit field 1 Person ID  2 First name  3 Last name  4 Email  5 Phone  6 Birth date"
                     + "  7 Member number  8 Department  9 Join date  10 Academic status  11 Institutional email"
                     + "  12 Advisor  13 Student number  14 Program  15 Admission date  16 Study year"
                     + "  17 Guardian phone  18 Scholarship: ", 1, 18);
             switch (field) {
-                case 1: s.setNationalId(digitsOnly("National ID (16 digits): ", 16)); break;
+                case 1: s.setPersonId(text("Person ID (4-30 characters): ", 4, 30)); break;
                 case 2: s.setFirstName(text("First name: ", 2, 60)); break;
                 case 3: s.setLastName(text("Last name: ", 2, 60)); break;
                 case 4: s.setEmail(email("Email: ")); break;
@@ -326,12 +314,12 @@ public class Main {
             }
         } else if (record instanceof Teacher) {
             Teacher t = (Teacher) record;
-            int field = number("Edit field 1 National ID  2 First name  3 Last name  4 Email  5 Phone  6 Birth date"
+            int field = number("Edit field 1 Person ID  2 First name  3 Last name  4 Email  5 Phone  6 Birth date"
                     + "  7 Member number  8 Department  9 Join date  10 Academic status  11 Institutional email"
                     + "  12 Advisor  13 Employee number  14 Specialization  15 Hire date  16 Salary  17 Office"
                     + "  18 Employment type: ", 1, 18);
             switch (field) {
-                case 1: t.setNationalId(digitsOnly("National ID (16 digits): ", 16)); break;
+                case 1: t.setPersonId(text("Person ID (4-30 characters): ", 4, 30)); break;
                 case 2: t.setFirstName(text("First name: ", 2, 60)); break;
                 case 3: t.setLastName(text("Last name: ", 2, 60)); break;
                 case 4: t.setEmail(email("Email: ")); break;
@@ -354,10 +342,10 @@ public class Main {
             }
         } else if (record instanceof Administrator) {
             Administrator a = (Administrator) record;
-            int field = number("Edit field 1 National ID  2 First name  3 Last name  4 Email  5 Phone  6 Birth date"
+            int field = number("Edit field 1 Person ID  2 First name  3 Last name  4 Email  5 Phone  6 Birth date"
                     + "  7 Staff number  8 Job title  9 Office  10 Employment date  11 Access level  12 Active: ", 1, 12);
             switch (field) {
-                case 1: a.setNationalId(digitsOnly("National ID (16 digits): ", 16)); break;
+                case 1: a.setPersonId(text("Person ID (4-30 characters): ", 4, 30)); break;
                 case 2: a.setFirstName(text("First name: ", 2, 60)); break;
                 case 3: a.setLastName(text("Last name: ", 2, 60)); break;
                 case 4: a.setEmail(email("Email: ")); break;
@@ -473,9 +461,9 @@ public class Main {
             throw new DuplicateRecordException(label + " " + candidate + " already exists.");
     }
 
-    private List<String> nationalIds() {
+    private List<String> personIds() {
         List<String> values = new ArrayList<>();
-        for (Person p : people()) values.add(p.getNationalId());
+        for (Person p : people()) values.add(p.getPersonId());
         return values;
     }
 
@@ -592,7 +580,7 @@ public class Main {
             Department department = prerequisiteDepartment();
             if (department == null) return;
             System.out.println("\n--- STUDENT: PERSONAL DETAILS ---");
-            String nationalId = digitsOnly("National ID (16 digits): ", 16);
+            String personId = text("Person ID (4-30 characters): ", 4, 30);
             String first = text("First name (2-60): ", 2, 60);
             String last = text("Last name (2-60): ", 2, 60);
             String email = email("Personal email: ");
@@ -611,10 +599,10 @@ public class Main {
             int year = number("Study year (1-8): ", 1, 8);
             String guardian = phone("Guardian phone: ");
             boolean scholarship = number("Scholarship: 1 YES, 2 NO: ", 1, 2) == 1;
-            Student record = new Student(nationalId, first, last, email, phone, dob, memberNo, department, join,
+            Student record = new Student(personId, first, last, email, phone, dob, memberNo, department, join,
                     academicStatus, institutionalEmail, advisor, studentNo, program, admission, year, guardian, scholarship);
             if (review(record)) {
-                unique(record.getNationalId(), "National ID", nationalIds());
+                unique(record.getPersonId(), "Person ID", personIds());
                 unique(record.getStudentNumber(), "Student number", studentNumbers());
                 unique(record.getEmail(), "Email", emails());
                 if (record.getEmail().equalsIgnoreCase(record.getInstitutionalEmail()))
@@ -636,7 +624,7 @@ public class Main {
             Department department = prerequisiteDepartment();
             if (department == null) return;
             System.out.println("\n--- TEACHER: PERSONAL DETAILS ---");
-            String nationalId = digitsOnly("National ID (16 digits): ", 16);
+            String personId = text("Person ID (4-30 characters): ", 4, 30);
             String first = text("First name: ", 2, 60); String last = text("Last name: ", 2, 60);
             String email = email("Personal email: "); String phone = phone("Phone: ");
             LocalDate dob = date("Date of birth (YYYY-MM-DD): ", true);
@@ -652,10 +640,10 @@ public class Main {
             String office = text("Office number: ", 1, 30);
             String employment = enumValue("Employment type (FULL_TIME, PART_TIME, CONTRACT): ",
                     "FULL_TIME", "PART_TIME", "CONTRACT");
-            Teacher record = new Teacher(nationalId, first, last, email, phone, dob, memberNo, department, join,
+            Teacher record = new Teacher(personId, first, last, email, phone, dob, memberNo, department, join,
                     academicStatus, institutionalEmail, advisor, employeeNo, specialization, hireDate, salary, office, employment);
             if (review(record)) {
-                unique(record.getNationalId(), "National ID", nationalIds());
+                unique(record.getPersonId(), "Person ID", personIds());
                 unique(record.getEmployeeNumber(), "Employee number", employeeNumbers());
                 unique(record.getEmail(), "Email", emails());
                 if (record.getEmail().equalsIgnoreCase(record.getInstitutionalEmail()))
@@ -675,16 +663,16 @@ public class Main {
     private void registerAdministrator() {
         try {
             System.out.println("\n--- ADMINISTRATOR: PERSONAL DETAILS ---");
-            String id = digitsOnly("National ID (16 digits): ", 16); String first = text("First name: ", 2, 60);
+            String personId = text("Person ID (4-30 characters): ", 4, 30); String first = text("First name: ", 2, 60);
             String last = text("Last name: ", 2, 60); String email = email("Email: ");
             String phone = phone("Phone: "); LocalDate dob = date("Date of birth (YYYY-MM-DD): ", true);
             System.out.println("--- ADMINISTRATOR DETAILS ---");
             String staff = text("Staff number: ", 4, 30); String title = text("Job title: ", 2, 120);
             String office = text("Assigned office: ", 1, 60); LocalDate employed = date("Employment date (YYYY-MM-DD): ", false);
             int access = number("Access level (1-10): ", 1, 10); boolean active = number("Active? 1 YES, 2 NO: ", 1, 2) == 1;
-            Administrator record = new Administrator(id, first, last, email, phone, dob, staff, title, office, employed, access, active);
+            Administrator record = new Administrator(personId, first, last, email, phone, dob, staff, title, office, employed, access, active);
             if (review(record)) {
-                unique(record.getNationalId(), "National ID", nationalIds());
+                unique(record.getPersonId(), "Person ID", personIds());
                 unique(record.getEmail(), "Email", emails());
                 unique(record.getStaffNumber(), "Staff number", staffNumbers());
                 save(administrators, record);

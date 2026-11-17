@@ -16,12 +16,12 @@ public class Teacher extends AcademicMember {
     private String officeNumber;
     private String employmentType;
 
-    public Teacher(String nationalId, String firstName, String lastName, String email, String phoneNumber,
+    public Teacher(String personId, String firstName, String lastName, String email, String phoneNumber,
                    LocalDate dateOfBirth, String memberNumber, Department department, LocalDate joinDate,
                    String academicStatus, String institutionalEmail, String advisorName, String employeeNumber,
                    String specialization, LocalDate hireDate, BigDecimal salary, String officeNumber,
                    String employmentType) {
-        super(nationalId, firstName, lastName, email, phoneNumber, dateOfBirth, memberNumber, department,
+        super(personId, firstName, lastName, email, phoneNumber, dateOfBirth, memberNumber, department,
                 joinDate, academicStatus, institutionalEmail, advisorName);
         this.employeeNumber = employeeNumber;
         this.specialization = specialization;

@@ -9,14 +9,7 @@ import java.util.regex.Pattern;
 public final class Checks {
     private static final Pattern EMAIL = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
     private static final Pattern PHONE = Pattern.compile("^\\+?\\d{10,15}$");
-    private static final Pattern NATIONAL_ID = Pattern.compile("^\\d{16}$");
-
     private Checks() { }
-
-    public static void nationalId(String value, String label) throws ValidationException {
-        if (value == null || !NATIONAL_ID.matcher(value.trim()).matches())
-            throw new ValidationException(label + " must contain exactly 16 digits.");
-    }
 
     public static void text(String value, String label, int min, int max) throws ValidationException {
         if (value == null || value.trim().length() < min || value.trim().length() > max)
